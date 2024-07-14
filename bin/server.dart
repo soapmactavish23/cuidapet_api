@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
+import 'package:cuidapet_api/application/config/application_config.dart';
 
 // Configure routes.
 final _router = Router()
@@ -21,6 +22,9 @@ Response _echoHandler(Request request) {
 void main(List<String> args) async {
   // Use any available host or container IP (usually `0.0.0.0`).
   final ip = InternetAddress.anyIPv4;
+
+  final appConfig = ApplicationConfig();
+  appConfig.loadConfigApplication();
 
   // Configure a pipeline that logs requests.
   final handler =
