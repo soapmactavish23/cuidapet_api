@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cuidapet_api/application/middlewares/cors/cors_middlewares.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -15,17 +16,11 @@ void main(List<String> args) async {
   appConfig.loadConfigApplication(router);
 
   var handler = const Pipeline()
-      .addMiddleware((innerHandler) {
-        print('Iniciando 1 middle');
-        return (Request request) async {
-          print('');
-          return innerHandler(request);
-        };
-      })
+      .addMiddleware(CorsMiddlewares().handler)
       .addMiddleware(logRequests())
       .addHandler(router.call);
 
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
-  final server = await serve(router.call, ip, port);
+  final server = await serve(handler, ip, port);
   print('Server listening on port ${server.port}');
 }
