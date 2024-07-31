@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cuidapet_api/application/middlewares/cors/cors_middlewares.dart';
+import 'package:cuidapet_api/application/middlewares/defaultContentType/default_content_type.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -17,6 +18,7 @@ void main(List<String> args) async {
 
   var handler = const Pipeline()
       .addMiddleware(CorsMiddlewares().handler)
+      .addMiddleware(DefaultContentType().handler)
       .addMiddleware(logRequests())
       .addHandler(router.call);
 
