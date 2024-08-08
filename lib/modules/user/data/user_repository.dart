@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cuidapet_api/application/database/i_database_connection.dart';
+import 'package:cuidapet_api/application/exceptions/database_exception.dart';
+import 'package:cuidapet_api/application/exceptions/user_exists_exception.dart';
 import 'package:cuidapet_api/application/helpers/cript_helper.dart';
 import 'package:cuidapet_api/application/logger/i_logger.dart';
 import 'package:cuidapet_api/entities/user.dart';
@@ -40,9 +42,10 @@ class UserRepository implements IUserRepository {
     } on MySqlException catch (e, s) {
       if (e.message.contains('usuario.email_UNIQUE')) {
         log.error('Usuário já cadastrado na base de dados', e, s);
+        throw UserExistsException();
       }
-
       log.error('Erro ao criar usuário', e, s);
+      throw DatabaseException(message: 'Erro ao criar usuário', exception: e);
     } finally {
       await conn?.close();
     }
