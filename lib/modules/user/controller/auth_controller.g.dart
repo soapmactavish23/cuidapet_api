@@ -9,8 +9,8 @@ part of 'auth_controller.dart';
 Router _$AuthControllerRouter(AuthController service) {
   final router = Router();
   router.add(
-    'GET',
-    r'/',
+    'POST',
+    r'/register',
     service.find,
   );
   return router;

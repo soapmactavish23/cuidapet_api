@@ -7,6 +7,6 @@ class UserRouter implements IRouter {
   @override
   void configure(Router router) {
     final authController = GetIt.I.get<AuthController>();
-    router.mount('/auth/', AuthController().router.call);
+    // router.mount('/auth/', AuthController().router.call);
   }
 }
